@@ -1,0 +1,38 @@
+realtime-project/
+├── frontend/
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── angular.json
+│   ├── tsconfig.json
+│   ├── tsconfig.app.json
+│   ├── tsconfig.spec.json
+│   ├── src/
+│   │   ├── main.ts
+│   │   ├── polyfills.ts
+│   │   ├── index.html
+│   │   ├── styles.css
+│   │   └── environments/
+│   │       ├── environment.ts
+│   │       └── environment.prod.ts
+│   │   └── app/
+│   │       ├── app.component.ts
+│   │       ├── app.component.html
+│   │       ├── app.component.css
+│   │       └── app.module.ts
+├── backend/
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── .dockerignore
+│   ├── .env
+│   └── index.js
+├── ai-service/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── ai_service.py
+├── db/
+│   └── init.sql
+├── nginx/
+│   └── nginx.conf
+└── docker-compose.yml
