@@ -1,0 +1,10 @@
+<div>
+  <h1>Realtime Users</h1>
+  <input type="text" placeholder="Name" [(ngModel)]="name">
+  <input type="text" placeholder="Role" [(ngModel)]="role">
+  <button (click)="addUser()">Add User</button>
+  <ul>
+    <li *ngFor="let user of users">{{user.name}} - {{user.role}}</li>
+  </ul>
+</div>
+

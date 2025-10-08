@@ -1,0 +1,71 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: realtime   # maintenance DB
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - rt-network
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=realtime
+      - DB_PORT=5432
+      - PORT=3000
+
+    networks:
+      - rt-network
+
+  ai-service:
+    build: ./ai-service
+    container_name: ai-service
+    ports:
+     - "8000:8000"
+    networks:
+      - rt-network
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    networks:
+      - rt-network
+    volumes:
+      - frontend-build:/usr/share/nginx/html:ro
+
+  nginx:
+    image: nginx:alpine
+    container_name: gateway
+    depends_on:
+      - frontend
+      - backend
+      - ai-service
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+      - frontend-build:/usr/share/nginx/html:ro
+    ports:
+      - '80:80'
+    networks:
+      - rt-network
+
+volumes:
+  db-data:
+  frontend-build:
+
+networks:
+  rt-network:
+    driver: bridge
